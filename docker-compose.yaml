@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  tanks_web_client:
+    image: nginx:alpine
+    volumes:
+      - ./docker/webgl-client:/usr/share/nginx/html:ro
+    ports:
+      - "8080:80"
+
+  tanks_server:
+    build:
+      context: ./docker/dedicated-linux-server
+    ports:
+      - "7777:7777/udp"
+
+  proxy:
+    image: nginx:alpine
+    volumes:
+      - ./docker/reverse-proxy:/etc/nginx/conf.d:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - tanks_web_client
+      - tanks_server
