@@ -13,6 +13,7 @@ services:
       context: ./docker/dedicated-linux-server
     ports:
       - "7777:7777/udp"
+      - "7778:7778/udp"
 
   proxy:
     image: nginx:alpine
