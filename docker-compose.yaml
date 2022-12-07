@@ -17,8 +17,8 @@ services:
       - -f
       - /root/server.log
     # Uncomment below in case debugging is desired
-    # ports:
-      # - "7777:7777/udp"
+    ports:
+      - "7777:7777/udp" # TODO: reverse proxy should work for UDP
       # - "7778:7778/tcp"
 
   proxy:
@@ -27,7 +27,7 @@ services:
       - ./docker/reverse-proxy:/etc/nginx/conf.d:ro
     ports:
       - "80:80"
-      - "7777:7777/udp"
+      # - "7777:7777/udp" # TODO: reverse proxy should work for UDP
       - "7778:7778/tcp"
     depends_on:
       - tanks_web_client
