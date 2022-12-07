@@ -5,15 +5,21 @@ services:
     image: nginx:alpine
     volumes:
       - ./docker/webgl-client:/usr/share/nginx/html:ro
-    ports:
-      - "8080:80"
+    # Uncomment below in case debugging is desired
+    # ports:
+      # - "8080:80"
 
   tanks_server:
     build:
       context: ./docker/dedicated-linux-server
-    ports:
-      - "7777:7777/udp"
-      - "7778:7778/udp"
+    command:
+      - /usr/bin/tail
+      - -f
+      - /root/server.log
+    # Uncomment below in case debugging is desired
+    # ports:
+      # - "7777:7777/udp"
+      # - "7778:7778/tcp"
 
   proxy:
     image: nginx:alpine
@@ -21,6 +27,8 @@ services:
       - ./docker/reverse-proxy:/etc/nginx/conf.d:ro
     ports:
       - "80:80"
+      - "7777:7777/udp"
+      - "7778:7778/tcp"
     depends_on:
       - tanks_web_client
       - tanks_server
