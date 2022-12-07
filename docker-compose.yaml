@@ -12,22 +12,24 @@ services:
   tanks_server:
     build:
       context: ./docker/dedicated-linux-server
-    command:
-      - /usr/bin/tail
-      - -f
-      - /root/server.log
+    # TODO: how can I run docker-compose logs -f tanks_server and see the server.log at /root/server.log?
+    # command:
+      # - /usr/bin/tail
+      # - -f
+      # - /root/server.log
     # Uncomment below in case debugging is desired
-    ports:
-      - "7777:7777/udp" # TODO: reverse proxy should work for UDP
+    # ports:
+      # - "7777:7777/udp"
       # - "7778:7778/tcp"
 
   proxy:
     image: nginx:alpine
     volumes:
-      - ./docker/reverse-proxy:/etc/nginx/conf.d:ro
+      - ./docker/reverse-proxy/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/reverse-proxy/etc/nginx/conf.d:/etc/nginx/conf.d:ro
     ports:
       - "80:80"
-      # - "7777:7777/udp" # TODO: reverse proxy should work for UDP
+      - "7777:7777/udp"
       - "7778:7778/tcp"
     depends_on:
       - tanks_web_client
