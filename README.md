@@ -34,9 +34,9 @@ Open up the Unity project located at `./unity/docker-mirror-tanks` in the Unity 
 
 Once the project is open in your Unity editor then build the required builds. Note you will need to be able to build WebGL, dedicated linux build, and optionally an app relevant to your operating system.
 
-WebGL should be built to `./dist/webgl-build` (input "webgl-build" without quotes into the build dialog).
+WebGL should be built to `./docker/tanks_web_client/webgl-build`.
 
-The dedicated linux build should be built to `./docker/dedicated-linux-server/build` (input "build" without quotes into the build dialog).
+The dedicated linux build should be built to `./docker/tanks_backend_server/build`.
 
 ### So what's in this project?
 This project simulates a production environment using the techniques of docker and docker compose.
