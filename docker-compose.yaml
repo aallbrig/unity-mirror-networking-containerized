@@ -2,35 +2,34 @@ version: '3.7'
 
 services:
   tanks_web_client:
-    image: nginx:alpine
-    volumes:
-      - ./docker/webgl-client:/usr/share/nginx/html:ro
+    container_name: tanks_web_client
+    build:
+      context: docker/tanks_web_client
     # Uncomment below in case debugging is desired
+    # e.g. by opening up localhost:8080 to see the web client
     # ports:
       # - "8080:80"
 
-  tanks_server:
+  tanks_backend_server:
+    container_name: tanks_backend_server
     build:
-      context: ./docker/dedicated-linux-server
+      context: docker/tanks_backend_server
     # TODO: how can I run docker-compose logs -f tanks_server and see the server.log at /root/server.log?
-    # command:
-      # - /usr/bin/tail
-      # - -f
-      # - /root/server.log
     # Uncomment below in case debugging is desired
+    # e.g. confirming udp is up by running `netstat -an | grep ":7777"`
+    #      or confirming tcp for websockets is up by running `netstat -an | grep ":7778"`
     # ports:
       # - "7777:7777/udp"
       # - "7778:7778/tcp"
 
-  proxy:
-    image: nginx:alpine
-    volumes:
-      - ./docker/reverse-proxy/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./docker/reverse-proxy/etc/nginx/conf.d:/etc/nginx/conf.d:ro
+  tanks_reverse_proxy:
+    container_name: tanks_reverse_proxy
+    build:
+      context: docker/tanks_reverse_proxy
     ports:
       - "80:80"
       - "7777:7777/udp"
       - "7778:7778/tcp"
     depends_on:
+      - tanks_backend_server
       - tanks_web_client
-      - tanks_server
