@@ -20,9 +20,8 @@ GitHub ⭐️s are always welcome =^_^=
 ```bash
 docker-compose up -d 
 
-# Tail Mirror server logs
-docker-compose exec tanks_backend_server bash -c "tail -f /root/server.log"
-
+# Watch tanks mirror backend server logs
+docker-compose logs -f tanks_backend_server
 # Watch reverse proxy access, error logs
 docker-compose logs -f tanks_reverse_proxy
 # Watch static web client access, error logs
