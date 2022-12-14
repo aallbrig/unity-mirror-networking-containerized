@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tanks-backend
+  labels:
+    app: tanks-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tanks-backend
+  template:
+    metadata:
+      labels:
+        app: tanks-backend
+    spec:
+      containers:
+        - name: tanks-backend
+          image: unity-mirror-networking-containerized_tanks_backend_server
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 7777
+              protocol: UDP
+            - containerPort: 7778
+              protocol: TCP

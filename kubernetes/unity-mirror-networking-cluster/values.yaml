@@ -1,0 +1,8 @@
+tanks_reverse_proxy:
+  foo: bar
+
+tanks_web_client:
+  foo: bar
+
+tanks_backend_server:
+  foo: bar

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tanks-backend
+  labels:
+    app: tanks-backend
+spec:
+  type: LoadBalancer
+  ports:
+    - name: udp
+      port: 7777
+      targetPort: 7777
+      protocol: UDP
+    - name: http
+      port: 7778
+      targetPort: 7778
+      protocol: TCP
+  selector:
+    app: tanks-backend
