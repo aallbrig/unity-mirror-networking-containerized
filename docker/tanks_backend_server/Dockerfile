@@ -6,7 +6,7 @@ RUN apt-get update && \
 # For debugging e.g. netstat -an | grep ":7777"
 RUN apt-get install -y net-tools
 
-COPY build/                  /root/build/
+COPY build/prod/             /root/build/
 COPY entrypoint.sh           /entrypoint.sh
 
 WORKDIR /root/

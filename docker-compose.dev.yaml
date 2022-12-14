@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  tanks_web_client:
+    container_name: tanks_web_client
+    build:
+      context: docker/tanks_web_client
+    # volumes:
+      # - ./docker/tanks_web_client/build/dev/:/usr/share/nginx/html/
+    # Uncomment below in case debugging is desired
+    # e.g. by opening up localhost:8080 to see the web client
+    # ports:
+      # - "8080:80"
+
+  tanks_backend_server:
+    container_name: tanks_backend_server
+    build:
+      context: docker/tanks_backend_server
+    volumes:
+      - ./docker/tanks_backend_server/build/dev/:/root/build/
+    # TODO: how can I run docker-compose logs -f tanks_server and see the server.log at /root/server.log?
+    # Uncomment below in case debugging is desired
+    # e.g. confirming udp is up by running `netstat -an | grep ":7777"`
+    #      or confirming tcp for websockets is up by running `netstat -an | grep ":7778"`
+    # TODO: given the debug port is dynamically assigned, how can I bind this port in this docker-compose manifest?
+    # ports:
+      # - "7777:7777/udp"
+      # - "7778:7778/tcp"
+
+  tanks_reverse_proxy:
+    container_name: tanks_reverse_proxy
+    build:
+      context: docker/tanks_reverse_proxy
+    ports:
+      - "80:80"
+      - "7777:7777/udp"
+      - "7778:7778/tcp"
+    depends_on:
+      - tanks_backend_server
+      - tanks_web_client
