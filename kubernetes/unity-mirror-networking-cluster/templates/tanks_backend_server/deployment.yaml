@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: tanks-backend
-          image: unity-mirror-networking-containerized_tanks_backend_server
+          image: unity-mirror-tanks-example_tanks_backend_server:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 7777
